@@ -111,6 +111,40 @@
       transform: translateY(-1px);
     }
 
+    .privacy-checkbox {
+      margin: 1.2rem 0;
+      text-align: left;
+    }
+
+    .privacy-checkbox label {
+      display: flex;
+      align-items: flex-start;
+      font-size: 0.85rem;
+      color: #555;
+      cursor: pointer;
+      line-height: 1.4;
+    }
+
+    .privacy-checkbox input[type="checkbox"] {
+      margin-right: 10px;
+      margin-top: 2px;
+      flex-shrink: 0;
+    }
+
+    .privacy-checkbox a {
+      color: #b0d667;
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .privacy-checkbox a:hover {
+      text-decoration: underline;
+    }
+
+    .required {
+      color: #ff4444;
+    }
+
     p.note {
       font-size: 0.8rem;
       color: #888;
@@ -127,6 +161,17 @@
     <form id="contactForm" action="https://formspree.io/f/xzzypnag" method="POST">
       <input type="email" name="email" placeholder="Vaša email adresa" required>
       <button type="submit">Pošalji i pogledaj ponudu</button>
+      
+      <!-- Obavezna potvrda o politici privatnosti -->
+      <div class="privacy-checkbox">
+        <label>
+          <input type="checkbox" name="privacy_policy" required>
+          <span>
+            Slažem se sa <a href="https://jela.rs/article/jela/Politika-privatnosti.html" target="_blank">politikom privatnosti</a>
+            <span class="required">*</span>
+          </span>
+        </label>
+      </div>
     </form>
 
     <p class="note">*Vaša email adresa se koristi isključivo za obaveštenja o Jelinim ponudama i akcijama.</p>
@@ -137,6 +182,14 @@
 
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
+      
+      // Provera da li je checkbox za politiku privatnosti čekiran
+      const privacyCheckbox = document.querySelector('input[name="privacy_policy"]');
+      if (!privacyCheckbox.checked) {
+        alert('Molimo vas da se složite sa politikom privatnosti pre slanja.');
+        return;
+      }
+
       const data = new FormData(form);
       const response = await fetch(form.action, {
         method: form.method,
@@ -154,14 +207,3 @@
   </script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
